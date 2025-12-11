@@ -1,6 +1,7 @@
 # Time Series Forecasting: Comparative Study of Deep Learning Architectures
 
 **Author:** Arthur Gislon Leonida  
+**Professor:** Laio Oriel Seman
 **Institution:** Universidade Federal de Santa Catarina (UFSC)
 
 ---
@@ -14,6 +15,7 @@ The project explores the strengths and limitations of:
 - **Transformer with Multi-Head Attention** (Global Dependency Learning)
 - **Transformer with Fourier Layer** (Frequency-Domain Attention)
 - **Transformer with ProbSparse Attention** (Efficient Sparse Attention)
+  - *Note: Includes a Local Convolution layer for the short-term dataset.*
 
 ---
 
@@ -69,7 +71,7 @@ TimeSeriesProjectUFSC/
 #### **Model B: Transformer Multi-Head Attention**
 - **Mechanism:** Self-attention captures global dependencies
 - **Strength:** Superior for long-range dependencies
-- **Trade-off:** Requires more data; computationally expensive
+- **Trade-off:** Requires more data; computationally expensive O(L²)
 
 #### **Model C: Transformer with Fourier Layer**
 - **Innovation:** Replaces attention with FFT for frequency-domain learning
@@ -79,7 +81,7 @@ TimeSeriesProjectUFSC/
 #### **Model D: Transformer ProbSparse Attention**
 - **Innovation:** Sparse attention reduces complexity from O(L²) to O(L log L)
 - **Strength:** Scalable to very long sequences (>720 hours)
-- **Trade-off:** Slight accuracy drop on short sequences
+- **Trade-off:** Slight accuracy drop on short sequences (mitigated by Local Convolution)
 
 ---
 
@@ -103,10 +105,10 @@ TimeSeriesProjectUFSC/
 ### Short-Term (Electricity Load)
 | Model | MSE | MAE | Training Time |
 |-------|-----|-----|---------------|
-| LSTM | **Best** | **Best** | Moderate |
-| Transformer (MHA) | Good | Good | High |
-| Transformer (Fourier) | Good | Good | Moderate |
-| Transformer (ProbSparse) | Good | Good | Low |
+| LSTM | **0.0013** | **0.0249** | Moderate |
+| Transformer (MHA) | 0.0043 | 0.0436 | High |
+| Transformer (Fourier) | 0.0025 | 0.0336 | Moderate |
+| Transformer (ProbSparse) | 0.0035 | 0.0388 | Low |
 
 ### Long-Term (ETTh1)
 | Model | MSE | Correlation | Baseline Beat |
@@ -115,30 +117,6 @@ TimeSeriesProjectUFSC/
 | Transformer (MHA) | 0.83414 | 0.9494 | -3.29% |
 | Transformer (Fourier) | 0.73998 | 0.9548 | +8.37% |
 | Transformer (ProbSparse) | 0.68330 | 0.9570 | +15.39% |
-
----
-
-## 🚀 How to Run
-
-### Prerequisites
-```bash
-pip install torch numpy pandas matplotlib scikit-learn statsmodels
-```
-
-### Execution
-1. **Short-Term Analysis:**
-   ```bash
-   jupyter notebook short_term.ipynb
-   ```
-   - Run all cells sequentially
-   - Models will train and save checkpoints to `best_model_*.pth`
-
-2. **Long-Term Analysis:**
-   ```bash
-   jupyter notebook long_term.ipynb
-   ```
-   - Ensure ETTh1 dataset is in `data/` directory
-   - Models will save to `best_*.pth`
 
 ---
 
@@ -174,9 +152,3 @@ pip install torch numpy pandas matplotlib scikit-learn statsmodels
 2. **Preprocessing is critical:** STL decomposition and proper data splitting prevent leakage and stabilize training.
 3. **Physics > Pure Statistics:** For physical systems (ETTh1), incorporating causal features (load → temperature) is essential.
 4. **LSTM is underrated:** For short horizons, LSTMs remain highly competitive despite the Transformer hype.
-
----
-
-## 📄 License
-
-This project is for academic purposes. Datasets are from public repositories (UCI, ETTh1 Benchmark).
