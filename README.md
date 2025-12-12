@@ -106,9 +106,9 @@ TimeSeriesProjectUFSC/
 | Model | MSE | MAE | Training Time |
 |-------|-----|-----|---------------|
 | LSTM | **0.0013** | **0.0249** | Moderate |
-| Transformer (MHA) | 0.0043 | 0.0436 | High |
-| Transformer (Fourier) | 0.0025 | 0.0336 | Moderate |
-| Transformer (ProbSparse) | 0.0035 | 0.0388 | Low |
+| Transformer (MHA) | 0.0032 | 0.0366 | High |
+| Transformer (Fourier) | 0.0032 | 0.0366 | Moderate |
+| Transformer (ProbSparse) | 0.0085 | 0.0586 | Low |
 
 ### Long-Term (ETTh1)
 | Model | MSE | Correlation | Baseline Beat |
